@@ -50,7 +50,6 @@ export class ProductService {
     }
     const updatedProduct = { ...requestedProduct, ...updateProductDto };
     this.products.push(updatedProduct);
-
     return `Product field successfully updated in the DB`;
   }
 
