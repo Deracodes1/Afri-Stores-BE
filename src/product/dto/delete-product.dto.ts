@@ -1,5 +1,5 @@
-import { IsNumber } from 'class-validator';
+import { IsString } from 'class-validator';
 export class DeleteProductDto {
-  @IsNumber()
-  id!: number;
+  @IsString()
+  id!: string;
 }

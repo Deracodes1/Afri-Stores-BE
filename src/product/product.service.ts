@@ -9,19 +9,19 @@ export class ProductService {
       name: 'Samsung Galaxy',
       description: 'Highly Durable Phone',
       price: 50,
-      id: 1,
+      id: '1',
     },
     {
       name: 'Hisense TV',
       description: 'MultiPurpose HI-sense TV for streaming, netlix and chill',
       price: 220,
-      id: 2,
+      id: '2',
     },
     {
       name: 'Hp EliteBook',
       description: 'Highly Performant machine',
       price: 150,
-      id: 3,
+      id: '3',
     },
   ];
   create(createProductDto: CreateProductDto) {
@@ -33,7 +33,7 @@ export class ProductService {
     return this.products;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     const requestedProduct = this.products.find((product) => product.id === id);
     if (!requestedProduct) {
       throw new NotFoundException('This product does not exist in our DB');
@@ -41,7 +41,7 @@ export class ProductService {
     return requestedProduct;
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
+  update(id: string, updateProductDto: UpdateProductDto) {
     const requestedProduct = this.products.find((product) => product.id === id);
     if (!requestedProduct) {
       throw new NotFoundException(
@@ -53,7 +53,7 @@ export class ProductService {
     return `Product field successfully updated in the DB`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     const requestedProduct = this.products.find((product) => product.id === id);
     if (!requestedProduct) {
       throw new NotFoundException(

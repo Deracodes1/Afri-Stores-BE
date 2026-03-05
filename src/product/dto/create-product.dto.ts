@@ -10,6 +10,6 @@ export class CreateProductDto {
 
   @IsNumber()
   price!: number;
-  @IsNumber()
-  id!: number;
+  @IsString()
+  id!: string;
 }
