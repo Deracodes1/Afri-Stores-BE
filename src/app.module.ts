@@ -8,9 +8,38 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ProductModule } from './product/product.module';
 import { AuthMiddleware } from './common/middleware/auth/auth.middleware';
-
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from './users/users.module';
+import { User } from './users/entities/user.entity';
+import { Product } from './product/entities/product.entity';
+import { AuthModule } from './auth/auth.module';
 @Module({
-  imports: [ProductModule],
+  imports: [
+    ProductModule,
+    // loading the .env file and making it available globally
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    // connecting to postgres sql with typeorm
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        host: configService.get<string>('DATABASE_HOST'),
+        port: configService.get<number>('DATABASE_PORT'),
+        username: configService.get<string>('DB_USERNAME'),
+        password: configService.get<string>('DB_PASSWORD'),
+        database: configService.get<string>('DB_DATABASE'),
+        entities: [User, Product],
+        autoLoadEntities: true, //this finds my entities automatically in ts so i don't list em manaually
+        synchronize: true, // only in development. will remove in production
+      }),
+    }),
+    UsersModule,
+    AuthModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
@@ -28,6 +57,10 @@ export class AppModule implements NestModule {
       {
         path: 'product/:id',
         method: RequestMethod.PATCH,
+      },
+      {
+        path: 'users',
+        method: RequestMethod.GET,
       },
     );
   }

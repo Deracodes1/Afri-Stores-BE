@@ -20,15 +20,14 @@ export class AuthMiddleware implements NestMiddleware {
       );
     }
     // parsing out the token from the req header
-    const token = authHeader.split('')[0];
-
+    const token = authHeader.split(' ')[1]; //
     // checking if token exists
     if (!token) {
       throw new UnauthorizedException('Token not found');
     }
 
     // attaching the token to the request for later use
-    req['token'] = token;
+    req['access_token'] = token;
 
     next();
   }

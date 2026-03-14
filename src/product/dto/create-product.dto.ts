@@ -1,15 +1,17 @@
-import { IsString, IsNumber } from 'class-validator';
+import { IsString, IsNumber, Min } from 'class-validator';
 
 export class CreateProductDto {
   @IsString()
-  name!: string; // ✅ The "!" tells TS to trust you
+  name!: string;
 
   @IsString()
-  // @IsOptional()
-  description!: string; // ✅ Use "?" if the field is optional
+  description!: string;
 
   @IsNumber()
+  @Min(0)
   price!: number;
-  @IsString()
-  id!: string;
+
+  @IsNumber()
+  @Min(0)
+  stock!: number;
 }
