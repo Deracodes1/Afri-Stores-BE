@@ -11,8 +11,6 @@ import { AuthMiddleware } from './common/middleware/auth/auth.middleware';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
-import { User } from './users/entities/user.entity';
-import { Product } from './product/entities/product.entity';
 import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
@@ -32,7 +30,6 @@ import { AuthModule } from './auth/auth.module';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_DATABASE'),
-        entities: [User, Product],
         autoLoadEntities: true, //this finds my entities automatically in ts so i don't list em manaually
         synchronize: true, // only in development. will remove in production
       }),

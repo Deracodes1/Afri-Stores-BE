@@ -1,6 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { AllExceptionsFilter } from './global/http-exception.filter';
+import { TransformInterceptor } from './global/transform.interceptor';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   // making the validators and transformers available globally
@@ -11,6 +13,9 @@ async function bootstrap() {
       transform: true, // Automatically transforms payloads to match DTO types
     }),
   );
+  // enabling response interceptor and error handling globally
+  app.useGlobalFilters(new AllExceptionsFilter());
+  app.useGlobalInterceptors(new TransformInterceptor());
 
   // the specified forntend urls in the origin array will able to communiccate
   //  with my nest application
