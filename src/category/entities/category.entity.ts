@@ -1,9 +1,9 @@
 import {
-  Column,
-  CreateDateColumn,
   Entity,
-  OneToMany,
   PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Product } from '../../product/entities/product.entity';
@@ -16,8 +16,14 @@ export class Category {
   @Column({ unique: true })
   name!: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   description?: string;
+
+  @Column({ nullable: true })
+  imageUrl?: string;
+
+  @Column({ default: true })
+  isActive!: boolean;
 
   @CreateDateColumn()
   createdAt!: Date;

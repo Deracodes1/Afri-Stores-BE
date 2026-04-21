@@ -2,8 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from './entities/category.entity';
 import { Repository } from 'typeorm';
-// import { CreateCategoryDto } from './dto/create-category.dto';
-// import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Injectable()
 export class CategoryService {
@@ -13,32 +11,19 @@ export class CategoryService {
   ) {}
 
   async findAll() {
-    return await this.categoryRepo.find({
-      // Optional: if you want to see products inside categories immediately
-      // relations: ['associatedProducts'],
-    });
+    return await this.categoryRepo.find();
   }
 
-  // A helper method for your seeding logic later
-  async createMany(categories: Partial<Category>[]) {
-    return await this.categoryRepo.save(categories);
-  }
-  // category.service.ts
   async seed() {
     const defaultCategories = [
-      {
-        name: 'Electronics',
-        description: 'High-end tech and gadgets',
-        // Add any other columns you have here
-      },
-      {
-        name: 'Home & Kitchen',
-        description: 'Furniture and appliances',
-      },
-      // ... total of 5
+      { name: 'Electronics', description: 'High-end tech and gadgets' },
+      { name: 'Home & Kitchen', description: 'Furniture and appliances' },
+      { name: 'Kiddies', description: 'kids playthings and toys' },
+      { name: 'Defense', description: 'High grade military equipments' },
+      { name: 'Appliances', description: 'Highly durable end to end' },
     ];
 
-    // upsert is robust because it prevents "duplicate key" errors
-    await this.categoryRepo.upsert(defaultCategories, ['name']);
+    // Using upsert on 'name' so you can run this multiple times safely
+    return await this.categoryRepo.upsert(defaultCategories, ['name']);
   }
 }

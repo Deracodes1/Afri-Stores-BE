@@ -1,15 +1,5 @@
-import {
-  Controller,
-  Get,
-  // Post,
-  Body,
-  // Patch,
-  // Param,
-  // Delete,
-} from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { CategoryService } from './category.service';
-// import { CreateCategoryDto } from './dto/create-category.dto';
-// import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Controller('categories')
 export class CategoryController {
@@ -18,5 +8,30 @@ export class CategoryController {
   @Get()
   async findAll() {
     return await this.categoryService.findAll();
+  }
+
+  @Get('seed')
+  async seedCategories() {
+    try {
+      console.log('Attempting to seed...');
+      await this.categoryService.seed();
+      return { message: 'Seeding successful' };
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown error';
+      const errorObject = error as Record<string, unknown>;
+      const errorDetail =
+        typeof errorObject?.detail === 'string'
+          ? errorObject.detail
+          : undefined;
+
+      console.error('SEEDING ERROR:', errorMessage);
+
+      return {
+        success: false,
+        message: errorMessage,
+        detail: errorDetail,
+      };
+    }
   }
 }
