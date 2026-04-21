@@ -3,8 +3,12 @@ import { AppModule } from './app.module';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { AllExceptionsFilter } from './global/http-exception.filter';
 import { TransformInterceptor } from './global/transform.interceptor';
+import helmet from 'helmet';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // for securing http headers
+  app.use(helmet());
   // making the validators and transformers available globally
   app.useGlobalPipes(
     new ValidationPipe({
