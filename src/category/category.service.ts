@@ -1,26 +1,44 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCategoryDto } from './dto/create-category.dto';
-import { UpdateCategoryDto } from './dto/update-category.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Category } from './entities/category.entity';
+import { Repository } from 'typeorm';
+// import { CreateCategoryDto } from './dto/create-category.dto';
+// import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Injectable()
 export class CategoryService {
-  create(createCategoryDto: CreateCategoryDto) {
-    return 'This action adds a new category';
+  constructor(
+    @InjectRepository(Category)
+    private readonly categoryRepo: Repository<Category>,
+  ) {}
+
+  async findAll() {
+    return await this.categoryRepo.find({
+      // Optional: if you want to see products inside categories immediately
+      // relations: ['associatedProducts'],
+    });
   }
 
-  findAll() {
-    return `This action returns all category`;
+  // A helper method for your seeding logic later
+  async createMany(categories: Partial<Category>[]) {
+    return await this.categoryRepo.save(categories);
   }
+  // category.service.ts
+  async seed() {
+    const defaultCategories = [
+      {
+        name: 'Electronics',
+        description: 'High-end tech and gadgets',
+        // Add any other columns you have here
+      },
+      {
+        name: 'Home & Kitchen',
+        description: 'Furniture and appliances',
+      },
+      // ... total of 5
+    ];
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
-  }
-
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+    // upsert is robust because it prevents "duplicate key" errors
+    await this.categoryRepo.upsert(defaultCategories, ['name']);
   }
 }
