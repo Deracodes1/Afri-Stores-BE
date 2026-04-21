@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Product } from '../../product/entities/product.entity';
+
 @Entity()
 export class Category {
   @PrimaryGeneratedColumn('uuid')
@@ -15,7 +16,7 @@ export class Category {
   @Column({ unique: true })
   name!: string;
 
-  @Column()
+  @Column({ nullable: true })
   description?: string;
 
   @CreateDateColumn()
@@ -24,6 +25,6 @@ export class Category {
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  @OneToMany(() => Product, (product) => product)
+  @OneToMany(() => Product, (product) => product.category)
   associatedProducts!: Product[];
 }

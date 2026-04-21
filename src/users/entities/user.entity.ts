@@ -34,6 +34,7 @@ export class User {
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  @OneToMany(() => Product, (Product) => Product.owner)
+  // Inverse side of the relationship
+  @OneToMany(() => Product, (product) => product.owner)
   products!: Product[];
 }

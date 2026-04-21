@@ -1,12 +1,14 @@
 import {
-  Entity, //
+  Entity,
   Column,
   CreateDateColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  JoinColumn,
 } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
+import { Category } from '../../category/entities/category.entity';
 
 @Entity()
 export class Product {
@@ -19,14 +21,27 @@ export class Product {
   @Column()
   description!: string;
 
-  @Column('decimal')
+  @Column('decimal', { precision: 12, scale: 2 })
   price!: number;
 
   @Column()
   stock!: number;
 
+  // --- Owner Relationship ---
+  @Column()
+  ownerId!: string; // Explicit Foreign Key column
+
   @ManyToOne(() => User, (user) => user.products)
+  @JoinColumn({ name: 'ownerId' }) // Link relation to the column above
   owner!: User;
+
+  // --- Category Relationship ---
+  @Column()
+  categoryId!: string;
+
+  @ManyToOne(() => Category, (category) => category.associatedProducts)
+  @JoinColumn({ name: 'categoryId' }) // Link relation to the column above
+  category!: Category;
 
   @CreateDateColumn()
   createdAt!: Date;
