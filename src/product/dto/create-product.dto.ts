@@ -1,4 +1,11 @@
-import { IsString, IsNumber, Min, IsUUID } from 'class-validator';
+import {
+  IsString,
+  IsNumber,
+  Min,
+  IsUUID,
+  IsOptional,
+  IsUrl,
+} from 'class-validator';
 
 export class CreateProductDto {
   @IsString()
@@ -15,6 +22,11 @@ export class CreateProductDto {
   @Min(0)
   stock!: number;
 
-  @IsUUID() // Ensures the frontend sends a valid UUID format
+  @IsUUID()
   categoryId!: string;
+
+  @IsOptional()
+  @IsString()
+  @IsUrl() // to force valid URL formats
+  image?: string;
 }

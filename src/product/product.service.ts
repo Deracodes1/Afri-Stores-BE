@@ -31,22 +31,23 @@ export class ProductService {
       // 2. Create the product object
       const product = this.productRepository.create({
         ...productData,
-        ownerId: userId, // Use the ID column directly
+        ownerId: userId,
         category: category,
       });
 
       // 3. Save to database
       return await this.productRepository.save(product);
     } catch (error) {
-      // THIS WILL LOG THE REAL ERROR TO YOUR TERMINAL (e.g., Foreign Key Violation)
       console.error('DATABASE SAVE ERROR:', error);
       throw error;
     }
   }
-  findAll() {
-    return this.productRepository.find({ relations: ['owner'] }); // includesing owner details
+  // In ProductService
+  async findAll() {
+    return await this.productRepository.find({
+      relations: ['category', 'owner'], // This will now include the image column automatically
+    });
   }
-
   async findOne(id: string) {
     const product = await this.productRepository.findOne({
       where: { id },

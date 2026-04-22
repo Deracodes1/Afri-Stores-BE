@@ -22,7 +22,7 @@ export class User {
   @Column({ unique: true })
   email!: string;
 
-  @Column()
+  @Column({ nullable: true })
   phoneNumber!: string;
 
   @Column({ select: false })
