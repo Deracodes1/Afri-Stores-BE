@@ -1,4 +1,4 @@
-import { IsString, IsNumber, Min } from 'class-validator';
+import { IsString, IsNumber, Min, IsUUID } from 'class-validator';
 
 export class CreateProductDto {
   @IsString()
@@ -14,4 +14,7 @@ export class CreateProductDto {
   @IsNumber()
   @Min(0)
   stock!: number;
+
+  @IsUUID() // Ensures the frontend sends a valid UUID format
+  categoryId!: string;
 }

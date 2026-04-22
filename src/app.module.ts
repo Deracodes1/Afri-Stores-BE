@@ -1,9 +1,4 @@
-import {
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  RequestMethod,
-} from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ProductModule } from './product/product.module';
@@ -45,23 +40,6 @@ import { CategoryModule } from './category/category.module';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes(
-      {
-        path: 'product/:id',
-        method: RequestMethod.DELETE,
-      },
-      {
-        path: 'product',
-        method: RequestMethod.POST,
-      },
-      {
-        path: 'product/:id',
-        method: RequestMethod.PATCH,
-      },
-      {
-        path: 'users',
-        method: RequestMethod.GET,
-      },
-    );
+    consumer.apply(AuthMiddleware).forRoutes('*');
   }
 }

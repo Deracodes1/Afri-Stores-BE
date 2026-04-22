@@ -49,3 +49,7 @@ export class Product {
   @UpdateDateColumn()
   updatedAt!: Date;
 }
+
+//Since you're on the frontend too, once this backend change is made,
+// your product creation form will need a dropdown or a selection tool that pulls from your
+// findAll categories endpoint. You'll be sending the id from that selection to the backend.

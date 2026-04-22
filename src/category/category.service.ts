@@ -23,7 +23,7 @@ export class CategoryService {
       { name: 'Appliances', description: 'Highly durable end to end' },
     ];
 
-    // Using upsert on 'name' so you can run this multiple times safely
+    // Using upsert on 'name' so i can run this multiple times safely
     return await this.categoryRepo.upsert(defaultCategories, ['name']);
   }
 }
