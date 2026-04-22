@@ -48,6 +48,9 @@ export class Product {
 
   @UpdateDateColumn()
   updatedAt!: Date;
+
+  @Column({ nullable: true })
+  image!: string;
 }
 
 //Since you're on the frontend too, once this backend change is made,
