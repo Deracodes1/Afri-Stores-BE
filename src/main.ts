@@ -42,7 +42,9 @@ async function bootstrap() {
     app.enableShutdownHooks();
   }
 
-  await app.listen(process.env.PORT ?? 3000);
+  // main.ts
+  const port = process.env.PORT || 3000;
+  await app.listen(port, '0.0.0.0'); // Adding '0.0.0.0' helps with some cloud routing
 }
 
 // Fix: Handle the rejection of the app bootstrap
