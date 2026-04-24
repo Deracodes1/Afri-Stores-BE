@@ -24,7 +24,7 @@ async function bootstrap() {
   // the specified forntend urls in the origin array will able to communiccate
   //  with my nest application
   app.enableCors({
-    origin: ['http://localhost:4200'],
+    origin: ['https://afrimegastores.netlify.app/'],
     credentials: true, //will enable the permitted frontend apps to send access toekn via authorization headers
   });
 
