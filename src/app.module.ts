@@ -22,13 +22,15 @@ import { CategoryModule } from './category/category.module';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        host: configService.get<string>('DATABASE_HOST'),
-        port: configService.get<number>('DATABASE_PORT'),
-        username: configService.get<string>('DB_USERNAME'),
-        password: configService.get<string>('DB_PASSWORD'),
-        database: configService.get<string>('DB_DATABASE'),
-        autoLoadEntities: true, //this finds my entities automatically in ts so i don't list em manaually
-        synchronize: true, // only in development. will remove in production
+        // Use the url property instead of host, port, username, etc.
+        url: configService.get<string>('DATABASE_URL'),
+        // Essential for Neon and most cloud providers
+        ssl: {
+          rejectUnauthorized: false,
+        },
+        autoLoadEntities: true,
+        // // Set this to false once your schema is stable or when moving to production
+        // synchronize: configService.get<string>('NODE_ENV') !== 'production',
       }),
     }),
     UsersModule,
