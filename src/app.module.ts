@@ -22,15 +22,19 @@ import { CategoryModule } from './category/category.module';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        // Use the url property instead of host, port, username, etc.
         url: configService.get<string>('DATABASE_URL'),
-        // Essential for Neon and most cloud providers
         ssl: {
+          // This tells the driver to ignore certificate validation errors
+          // while still encrypting the connection—perfect for cloud DBs.
           rejectUnauthorized: false,
         },
+        extra: {
+          // This explicitly tells the driver how to handle the connection
+          // and silences that specific warning.
+          sslmode: 'verify-full',
+        },
         autoLoadEntities: true,
-        // // Set this to false once your schema is stable or when moving to production
-        // synchronize: configService.get<string>('NODE_ENV') !== 'production',
+        synchronize: configService.get<string>('NODE_ENV') !== 'production',
       }),
     }),
     UsersModule,
