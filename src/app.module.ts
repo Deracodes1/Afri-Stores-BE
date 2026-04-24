@@ -34,7 +34,7 @@ import { CategoryModule } from './category/category.module';
           sslmode: 'verify-full',
         },
         autoLoadEntities: true,
-        synchronize: configService.get<string>('NODE_ENV') !== 'production',
+        synchronize: false,
       }),
     }),
     UsersModule,
