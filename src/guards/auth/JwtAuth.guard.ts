@@ -23,8 +23,7 @@ export class JwtAuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     // 1. Use the interface here to satisfy the linter
     const request = context.switchToHttp().getRequest<AuthenticatedRequest>();
-
-    const authHeader = request.headers.authorization;
+    const authHeader = request.headers['authorization'];
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       throw new UnauthorizedException(
         'Authentication token missing or invalid',
